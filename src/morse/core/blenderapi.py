@@ -8,7 +8,7 @@ import sys
 fake = False
 
 # running in Blender?
-if sys.executable.endswith('blender'):
+if sys.executable.endswith('blender') or sys.executable.endswith('blender.exe'):
     import bpy
     try:
         import bge
@@ -17,7 +17,7 @@ if sys.executable.endswith('blender'):
         # typically at 'Builder' stage.
         fake = True
 else:
-    print("ATTENTION: MORSE is running outside Blender! (sys.executable != blender)")
+    print("ATTENTION: MORSE is running outside Blender! (sys.executable[%s] != blender)" % (sys.executable))
     fake = True
 
 UPARROWKEY = None

@@ -234,6 +234,7 @@ def set_prefixes(silent = False):
 def check_setup():
 
     global blender_exec
+    global morse_prefix
     
     set_prefixes()
 
@@ -272,7 +273,7 @@ def check_setup():
         
         #Eventually, look for another Blender in the MORSE prefix
         if blender_exec == "":
-            blender_prefix = os.path.join(os.path.normpath(prefix), os.path.normpath("bin/blender"))
+            blender_prefix = os.path.join(os.path.normpath(morse_prefix), os.path.normpath("bin/blender"))
             blender_version_prefix = check_blender_version(blender_prefix)
             
             if blender_version_prefix:
@@ -608,12 +609,12 @@ def launch_simulator(scene=None, script=None, node_name=None, geometry=None, scr
                 script_path = os.path.abspath(script)
                 script_path = script_path.replace ('\\', '/')
                 tmpF.write(("import sys\n").encode())
-                for element in sys.path.split(os.pathsep):
+                for element in sys.path:
                     element = element.replace('\\', '/')
                     tmpF.write(("sys.path.append('" + element + "')\n").encode())
                 tmpF.write(("exec(compile(open('" + script_path + "').read(), '" + script_path + "', 'exec'), globals (), locals ())\n").encode())
                 tmpF.write(("import os\n").encode())
-                tmpF.write(("os.unlink('" + tmpF.name.replace('\\', '/') + "')\n").encode())
+                tmpF.write(("os.unlink('" + script_path + "')\n").encode())
                 tmpF.flush()
                 tmpF.close()
                 script = tmpF.name
@@ -625,9 +626,13 @@ def launch_simulator(scene=None, script=None, node_name=None, geometry=None, scr
                     tmpF.close()
                     os.unlink(tmpF.name)
         logger.info("Executing Blender script: " + script)
-        os.execle(blender_exec, blender_exec, scene, "-y", "-P", script, *other_params)
+        #os.execle(blender_exec, blender_exec, scene, "-y", "-P", script, *other_params)
+	# Use spawnle instead of execle because it crashes in windows under python 3.3
+	os.spawnle(os.P_NOWAIT, blender_exec, blender_exec, scene, "-y", "-P", script, *other_params)
     else:
-        os.execle(blender_exec, blender_exec, scene, "-y", *other_params)
+        #os.execle(blender_exec, blender_exec, scene, "-y", *other_params)
+	# Use spawnle instead of execle because it crashes in windows under python 3.3
+	os.spawnle(os.P_NOWAIT, blender_exec, blender_exec, scene, "-y", *other_params)
 
 def do_check(args):
     try:
