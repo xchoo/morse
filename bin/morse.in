@@ -598,7 +598,7 @@ def launch_simulator(scene=None, script=None, node_name=None, geometry=None, scr
         other_params.append('--')
         other_params += script_options
 
-    other_params.append(env) # must be the last option
+    #other_params.append(env) # must be the last option
 
     #Replace the current process by Blender
     if script != None:
@@ -628,11 +628,13 @@ def launch_simulator(scene=None, script=None, node_name=None, geometry=None, scr
         logger.info("Executing Blender script: " + script)
         #os.execle(blender_exec, blender_exec, scene, "-y", "-P", script, *other_params)
         # Use spawnle instead of execle because it crashes in windows under python 3.3
-        os.spawnle(os.P_NOWAIT, blender_exec, blender_exec, scene, "-y", "-P", script, *other_params)
+        #os.spawnle(os.P_NOWAIT, blender_exec, blender_exec, scene, "-y", "-P", script, *other_params)
+        subprocess.Popen([blender_exec, blender_exec, scene, "-y", "-P", script] + other_params, env=env)
     else:
         #os.execle(blender_exec, blender_exec, scene, "-y", *other_params)
         # Use spawnle instead of execle because it crashes in windows under python 3.3
-        os.spawnle(os.P_NOWAIT, blender_exec, blender_exec, scene, "-y", *other_params)
+        #os.spawnle(os.P_NOWAIT, blender_exec, blender_exec, scene, "-y", *other_params)
+        subprocess.Popen([blender_exec, blender_exec, scene, "-y", "-P", script] + other_params)
 
 def do_check(args):
     try:
