@@ -612,9 +612,11 @@ def launch_simulator(scene=None, script=None, node_name=None, geometry=None, scr
                 for element in sys.path:
                     element = element.replace('\\', '/')
                     tmpF.write(("sys.path.append('" + element + "')\n").encode())
-                tmpF.write(("exec(compile(open('" + script_path + "').read(), '" + script_path + "', 'exec'), globals (), locals ())\n").encode())
+                tmpF.write(("f = open('" + script_path + "')\n").encode())
+                tmpF.write(("exec(compile(f.read(), '" + script_path + "', 'exec'), globals (), locals ())\n").encode())
                 tmpF.write(("import os\n").encode())
-                tmpF.write(("os.unlink('" + script_path + "')\n").encode())
+                tmpF.write(("f.close()\n").encode())
+                tmpF.write(("os.unlink('" + tmpF.name.replace('\\', '/') + "')\n").encode())
                 tmpF.flush()
                 tmpF.close()
                 script = tmpF.name
@@ -626,6 +628,7 @@ def launch_simulator(scene=None, script=None, node_name=None, geometry=None, scr
                     tmpF.close()
                     os.unlink(tmpF.name)
         logger.info("Executing Blender script: " + script)
+        print("Executing Blender script: " + script)
         #os.execle(blender_exec, blender_exec, scene, "-y", "-P", script, *other_params)
         # Use spawnle instead of execle because it crashes in windows under python 3.3
         #os.spawnle(os.P_NOWAIT, blender_exec, blender_exec, scene, "-y", "-P", script, *other_params)

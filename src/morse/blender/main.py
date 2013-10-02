@@ -583,11 +583,13 @@ def init(contr):
         quit(contr)
 
     if MULTINODE_SUPPORT:
+        logger.info("MULTINODE SUPPORT ENABLED!")
         init_multinode()
     
     # Set the default value of the logic tic rate to 60
     #bge.logic.setLogicTicRate(60.0)
     #bge.logic.setPhysicsTicRate(60.0)
+      
 
 def init_logging():
     from morse.core.ansistrm import ColorizingStreamHandler

@@ -3,6 +3,7 @@ for all the cases we need to run MORSE code outside Blender (mostly for
 documentation generation purposes).
 """
 from morse.core.exceptions import MorseBuilderNoComponentError
+import logging
 
 bpy = None
 
@@ -13,6 +14,8 @@ except ImportError:
 
 def empty_method(*args, **kwargs):
     print(args, kwargs)
+
+logger = logging.getLogger('morse')
 
 select_all = empty_method
 add_mesh_monkey = empty_method

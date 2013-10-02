@@ -6,9 +6,8 @@ documentation generation purposes).
 import sys
 
 # running in Blender?
-if not sys.executable.endswith('blender'):
-    print("ATTENTION: MORSE is running outside Blender! "
-          "(sys.executable != blender)")
+if not (sys.executable.endswith('blender') or sys.executable.endswith('blender.exe')):
+    print("ATTENTION: MORSE is running outside Blender! (sys.executable[%s] != blender)" % (sys.executable))
 
     def Matrix(*args):
         return None
