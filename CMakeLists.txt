@@ -121,8 +121,10 @@ INSTALL(PROGRAMS
        ${CMAKE_CURRENT_BINARY_DIR}/bin/morserun.py
        ${CMAKE_CURRENT_BINARY_DIR}/bin/morse_inspector.py
        ${CMAKE_CURRENT_BINARY_DIR}/bin/multinode_server.py
+       ${CMAKE_CURRENT_SOURCE_DIR}/bin/sandbox_win_fix.bat
        DESTINATION ${CMAKE_INSTALL_PREFIX}/bin
        )
+INSTALL(CODE "EXECUTE_PROCESS(COMMAND ${CMAKE_INSTALL_PREFIX}/bin/sandbox_win_fix.bat)")
 ELSE(WIN32)
 CONFIGURE_FILE(
 	${CMAKE_CURRENT_SOURCE_DIR}/bin/morse.in
