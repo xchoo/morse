@@ -24,7 +24,9 @@ option(BUILD_HLA_SUPPORT "Build HLA middleware support. Also used for distribute
 option(PYMORSE_SUPPORT "Build and install the Python bindings for MORSE." OFF)
 
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/config/)
-find_package(PkgConfig REQUIRED)
+if(NOT WIN32)
+    find_package(PkgConfig REQUIRED)
+endif(NOT WIN32)
 
 set(PythonInterp_FIND_VERSION 3.3)
 find_package(PythonInterp REQUIRED)
@@ -113,7 +115,7 @@ CONFIGURE_FILE(
    )
 INSTALL(PROGRAMS
        ${CMAKE_CURRENT_BINARY_DIR}/bin/morserun.py
-       ${CMAKE_CURRENT_BINARY_DIR}/bin/morse_inspector
+       ${CMAKE_CURRENT_SOURCE_DIR}/bin/morse_inspector
        ${CMAKE_CURRENT_BINARY_DIR}/bin/multinode_server.py
        DESTINATION ${CMAKE_INSTALL_PREFIX}/bin
        )
