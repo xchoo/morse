@@ -121,7 +121,6 @@ INSTALL(PROGRAMS
        ${CMAKE_CURRENT_BINARY_DIR}/bin/morserun.py
        ${CMAKE_CURRENT_BINARY_DIR}/bin/morse_inspector.py
        ${CMAKE_CURRENT_BINARY_DIR}/bin/multinode_server.py
-       ${CMAKE_CURRENT_SOURCE_DIR}/bin/sandbox_win_fix.bat
        DESTINATION ${CMAKE_INSTALL_PREFIX}/bin
        )
 SET(DEL_SANDBOX_BLEND "del \"${CMAKE_INSTALL_PREFIX}/share/morse/data/environments/sandbox.blend\"")
